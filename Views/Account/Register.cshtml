@@ -1,0 +1,84 @@
+@model E_Ticaret.Models.RegisterViewModel
+
+<div class="form-container">
+    <h2>Kayıt Ol</h2>
+
+    <form asp-action="Register" method="post" class="register-form">
+        <div class="form-group">
+            <label asp-for="Email"></label>
+            <input asp-for="Email" class="form-control" />
+            <span asp-validation-for="Email" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Password">Şifre</label>
+            <input asp-for="Password" class="form-control" />
+            <span asp-validation-for="Password" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="ConfirmPassword">Şifreyi tekrar giriniz</label>
+            <input asp-for="ConfirmPassword" class="form-control" />
+            <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+        </div>
+        <button type="submit" class="btn btn-primary">Kayıt Ol</button>
+    </form>
+</div>
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["SuccessMessage"]
+    </div>
+}
+
+@if (!ViewData.ModelState.IsValid)
+{
+    <div class="alert alert-danger">
+        <ul>
+            @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+            {
+                <li>@error.ErrorMessage</li>
+            }
+        </ul>
+    </div>
+}
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+
+<style>
+    .form-container {
+        max-width: 400px;
+        margin: 50px auto 0; /* Navbar'dan mesafe bırakma */
+        padding: 20px;
+        background-color: #ffffff;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-container h2 {
+        text-align: center;
+        margin-bottom: 20px; /* Başlık ve form arasındaki boşluk */
+    }
+
+    .register-form {
+        width: 100%;
+    }
+
+    .register-form .form-group {
+        margin-bottom: 20px;
+    }
+
+    .register-form label {
+        margin-bottom: 10px;
+        display: block;
+    }
+
+    .register-form .form-check {
+        margin-bottom: 20px;
+    }
+
+    .register-form button {
+        width: 100%;
+    }
+</style>

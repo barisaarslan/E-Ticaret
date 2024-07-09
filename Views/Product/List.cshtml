@@ -1,0 +1,102 @@
+@model IEnumerable<E_Ticaret.Models.Product>
+
+<h2 class="product-list-title">Ürün Listesi</h2>
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["ErrorMessage"]
+    </div>
+}
+
+<div class="row">
+    @foreach (var product in Model)
+    {
+        <div class="col-md-4">
+            <div class="card mb-4 product-card">
+                <div class="card-body">
+                    <h5 class="card-title">@product.ProductName</h5>
+                    <p class="card-text">
+                        <strong>Ürün Kodu:</strong> @product.ProductCode<br />
+                        <strong>Açıklama:</strong> <span class="description">@product.Description</span><br />
+                        <strong>Fiyat:</strong> @product.Price<br />
+                        <strong>Stok Miktarı:</strong> @product.StockQuantity<br />
+                        <strong>Satış Tarihi:</strong> @product.SalesStartDate.ToShortDateString()
+                    </p>
+                    @if (product.StockQuantity < 1)
+                    {
+                        <p class="text-danger">Stokta yok</p>
+                    }
+                    else
+                    {
+                        <form asp-action="AddToCart" asp-controller="Cart" method="post" class="add-to-cart-form">
+                            <input type="hidden" name="productId" value="@product.Id" />
+                            <button type="submit" class="btn btn-primary">Sepete Ekle</button>
+                        </form>
+                    }
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var descriptions = document.querySelectorAll('.description');
+            descriptions.forEach(function (description) {
+                var text = description.textContent;
+                var words = text.split(' ');
+                var maxWords = 15; // Kelime sınırı
+                if (words.length > maxWords) {
+                    var truncatedText = words.slice(0, maxWords).join(' ') + '...';
+                    description.textContent = truncatedText;
+                }
+            });
+        });
+    </script>
+}
+
+<style>
+    .product-list-title {
+        margin-bottom: 20px; /* Ürün Listesi başlığı ile kart grubu arasında boşluk */
+    }
+
+    .product-card {
+        height: 350px; /* Kartın sabit yüksekliği */
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    .product-card .card-body {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    .product-card .card-title {
+        font-size: 1.5rem; /* Başlık kısmının puntosunu büyütüyoruz */
+        margin-bottom: 10px; /* Başlık ve metin arasında boşluk */
+    }
+
+    .product-card .card-text {
+        flex-grow: 1;
+    }
+
+    .add-to-cart-form {
+        display: flex;
+        justify-content: flex-end; /* Sepete Ekle butonunu sağa yasla */
+        margin-top: 10px;
+    }
+
+    .add-to-cart-form button {
+        margin-left: auto;
+    }
+
+    .description {
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+</style>

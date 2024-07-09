@@ -1,0 +1,14 @@
+@{
+    ViewBag.Title = "Sipariş Onayı";
+}
+
+<h2>Sipariş Onayı</h2>
+
+@if (ViewBag.OrderNumber != null)
+{
+    <p>Siparişiniz başarıyla oluşturuldu. Sipariş Numaranız: <strong>@ViewBag.OrderNumber</strong></p>
+}
+else
+{
+    <p>Bir hata oluştu. Lütfen tekrar deneyin.</p>
+}

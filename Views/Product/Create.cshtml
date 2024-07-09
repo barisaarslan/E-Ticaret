@@ -1,0 +1,64 @@
+@model E_Ticaret.Models.ProductViewModel
+
+<h2>Ürün Ekle</h2>
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["SuccessMessage"]
+    </div>
+}
+
+<form asp-action="Create" method="post" class="product-form">
+    <div class="form-group">
+        <label asp-for="ProductCode">Ürün Kodu</label>
+        <input asp-for="ProductCode" class="form-control" />
+        <span asp-validation-for="ProductCode" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="ProductName">Ürün Adı</label>
+        <input asp-for="ProductName" class="form-control" />
+        <span asp-validation-for="ProductName" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Description">Açıklama</label>
+        <textarea asp-for="Description" class="form-control"></textarea>
+    </div>
+    <div class="form-group">
+        <label asp-for="Price">Fiyat</label>
+        <input asp-for="Price" class="form-control" />
+        <span asp-validation-for="Price" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="StockQuantity">Stok Miktarı</label>
+        <input asp-for="StockQuantity" class="form-control" />
+        <span asp-validation-for="StockQuantity" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="SalesStartDate">Satış Başlangıç Tarihi</label>
+        <input asp-for="SalesStartDate" class="form-control" type="date" />
+        <span asp-validation-for="SalesStartDate" class="text-danger"></span>
+    </div>
+    <button type="submit" class="btn btn-primary">Ürün Ekle</button>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+
+<style>
+    .product-form .form-group {
+        margin-bottom: 20px; /* Her form elemanı arasında 20px boşluk */
+    }
+
+    .product-form label {
+        margin-bottom: 10px; /* Etiket ile input arasındaki boşluk */
+        display: block;
+    }
+
+    .product-form input, 
+    .product-form textarea, 
+    .product-form button {
+        margin-top: 5px; /* Input ile üstündeki etiket arasındaki boşluk */
+    }
+</style>

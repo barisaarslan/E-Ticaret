@@ -1,0 +1,99 @@
+@model E_Ticaret.Models.Cart
+
+<h2>Sepetim</h2>
+
+@if (!Model.Items.Any())
+{
+    <p>Sepetiniz boş.</p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Ürün Adı</th>
+                <th>Adet</th>
+                <th>Fiyat</th>
+                <th>Toplam</th>
+                <th>İşlem</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Items)
+            {
+                <tr>
+                    <td>@item.Product.ProductName</td>
+                    <td>@item.Quantity</td>
+                    <td>@item.Product.Price</td>
+                    <td>@(item.Product.Price * item.Quantity)</td>
+                    <td>
+                        <form asp-action="RemoveFromCart" asp-controller="Cart" method="post">
+                            <input type="hidden" name="productId" value="@item.ProductId" />
+                            <button type="submit" class="btn btn-danger">Sil</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <div class="text-right">
+        <h4>Toplam Fiyat: @Model.TotalPrice</h4>
+    </div>
+
+    <div class="order-info">
+        <h3>Sipariş Bilgileri</h3>
+        <form asp-action="PlaceOrder" asp-controller="Cart" method="post">
+            <div class="form-group">
+                <label for="FirstName">Ad</label>
+                <input type="text" name="FirstName" class="form-control" required />
+            </div>
+            <div class="form-group">
+                <label for="LastName">Soyad</label>
+                <input type="text" name="LastName" class="form-control" required />
+            </div>
+            <div class="form-group">
+                <label for="Phone">Telefon</label>
+                <input type="text" name="Phone" class="form-control" required />
+            </div>
+            <div class="form-group">
+                <label for="Address">Adres</label>
+                <input type="text" name="Address" class="form-control" required />
+            </div>
+            <button type="submit" class="btn btn-primary">Siparişi Tamamla</button>
+        </form>
+    </div>
+}
+
+<style>
+    .order-info {
+        margin-top: 30px; /* Toplam fiyat bilgisinden ayırmak için boşluk */
+        padding: 20px; /* İçerik içinde boşluk */
+        border: 1px solid #ddd; /* Çerçeve ekleyerek grubu belirginleştirmek için */
+        border-radius: 8px; /* Köşeleri yuvarlatma */
+        background-color: #f9f9f9; /* Arka plan rengi */
+    }
+
+    .order-info h3 {
+        margin-bottom: 20px; /* Başlık ile form elemanları arasındaki boşluk */
+    }
+
+    .order-info .form-group {
+        margin-bottom: 15px; /* Form elemanları arasındaki boşluk */
+    }
+
+    .order-info label {
+        margin-bottom: 5px; /* Etiket ile input arasındaki boşluk */
+        display: block;
+    }
+
+    .order-info input, 
+    .order-info button {
+        margin-top: 5px; /* Input ve buton ile üstündeki eleman arasındaki boşluk */
+    }
+
+    .order-info button {
+        display: block; /* Butonu tam genişlikte yapmak için */
+        width: 100%;
+    }
+</style>
